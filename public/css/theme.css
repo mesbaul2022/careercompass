@@ -1,0 +1,43 @@
+:root {
+    --cc-primary: #0b3d91;      /* deep professional blue */
+    --cc-primary-dark: #082a66;
+    --cc-accent: #f4b400;       /* gold accent for CTAs/highlights */
+    --cc-bg: #f7f8fb;
+    --cc-text: #1f2430;
+    --cc-radius: 14px;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--cc-bg);
+    color: var(--cc-text);
+}
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.btn-primary {
+    background-color: var(--cc-primary);
+    border-color: var(--cc-primary);
+}
+.btn-primary:hover {
+    background-color: var(--cc-primary-dark);
+    border-color: var(--cc-primary-dark);
+}
+.cc-card {
+    border: none;
+    border-radius: var(--cc-radius);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cc-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+}
+.cc-hero {
+    background: linear-gradient(135deg, var(--cc-primary), var(--cc-primary-dark));
+    color: white;
+    border-radius: var(--cc-radius);
+    padding: 60px 40px;
+}
+.badge-active   { background-color: #1e9e5a; }
+.badge-expired  { background-color: #b3261e; }
