@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\JobCircular;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class JobCircularController extends Controller
 {
@@ -12,7 +14,8 @@ class JobCircularController extends Controller
      */
     public function index()
     {
-        //
+        $jobs = JobCircular::latest()->paginate(10);
+        return view('admin.jobs.index', compact('jobs'));
     }
 
     /**
@@ -20,7 +23,7 @@ class JobCircularController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.jobs.create');
     }
 
     /**
@@ -28,38 +31,27 @@ class JobCircularController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->validate([
+            'title'        => 'required|string|max:255',
+            'company_name' => 'required|string|max:255',
+            'category'     => 'required|string',
+            'description'  => 'required|string',
+            'deadline'     => 'required|date',
+            'image'        => 'nullable|image|max:2048',
+            'attachment'   => 'nullable|file|mimes:pdf|max:5120',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $data['user_id'] = auth()->id();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('job-images', 'public');
+        }
+        if ($request->hasFile('attachment')) {
+            $data['attachment'] = $request->file('attachment')->store('job-attachments', 'public');
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        JobCircular::create($data);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('admin.jobs.index')->with('success', 'Job circular published!');
     }
 }
