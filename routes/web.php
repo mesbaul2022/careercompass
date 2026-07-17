@@ -12,6 +12,7 @@ Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('h
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('jobs', \App\Http\Controllers\Admin\JobCircularController::class);
+    Route::resource('syllabi', \App\Http\Controllers\Admin\SyllabusController::class)->except(['show']);
 });
 
 Route::middleware('auth')->group(function () {
