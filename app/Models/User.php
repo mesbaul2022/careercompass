@@ -34,6 +34,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function savedJobs()
+    {
+        return $this->belongsToMany(JobCircular::class, 'saved_jobs', 'user_id', 'job_circular_id');
+    }
+
     /**
      * Get the attributes that should be cast.
      *
