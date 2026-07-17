@@ -45,19 +45,19 @@
         </li>
     </ul>
 
-    {{-- Quick Facts Box --}}
+    {{-- Dynamic Quick Facts Box --}}
     <div class="bg-light p-3 rounded mb-4 border">
         <div class="row text-dark" style="font-size: 0.95rem;">
             <div class="col-md-4">
-                <p class="mb-1">Vacancy: <strong>--</strong></p>
-                <p class="mb-0">Experience: <strong>At most 2 years</strong></p>
+                <p class="mb-1">Vacancy: <strong>Not Specified</strong></p>
+                <p class="mb-0">Experience: <strong>{{ $job->experience ?? 'N/A' }}</strong></p>
             </div>
             <div class="col-md-4">
-                <p class="mb-1">Location: <strong>Dhaka (Banasree)</strong></p>
+                <p class="mb-1">Location: <strong>{{ $job->location ?? 'N/A' }}</strong></p>
                 <p class="mb-0">Published: <strong>{{ $job->created_at->format('d M Y') }}</strong></p>
             </div>
             <div class="col-md-4">
-                <p class="mb-0">Salary: <strong>Negotiable</strong></p>
+                <p class="mb-0">Salary: <strong>{{ $job->salary ?? 'Negotiable' }}</strong></p>
             </div>
         </div>
     </div>
@@ -66,73 +66,64 @@
         Applicants are encouraged to submit <strong>Video CV</strong>.
     </div>
 
-    {{-- Tab Content --}}
+    {{-- Dynamic Tab Content --}}
     <div class="tab-content" id="jobTabsContent">
         
-        {{-- ALL TAB }}
+        {{-- ALL TAB --}}
         <div class="tab-pane fade show active" id="all" role="tabpanel">
             
-            {{-- Requirements Section --}}
-            <h5 style="color: #a81c51;" class="fw-bold mb-3">Requirements</h5>
-            <h6 class="fw-bold">Education</h6>
-            <ul class="text-muted">
-                <li>BBA / MBA in Accounting, Finance, or a related discipline from a recognized university.</li>
-            </ul>
+            @if($job->description)
+                <h5 style="color: #a81c51;" class="fw-bold mb-3">Context / General Description</h5>
+                <div class="text-muted mb-4">{!! nl2br(e($job->description)) !!}</div>
+            @endif
 
-            <h6 class="fw-bold mt-3">Experience</h6>
-            <ul class="text-muted">
-                <li>At most 2 years</li>
-                <li>The applicants should have experience in the following business area(s): Chamber, Clinic, Hospital, Physiotherapy center</li>
-                <li>Freshers are also encouraged to apply.</li>
-            </ul>
+            @if($job->requirements)
+                <h5 style="color: #a81c51;" class="fw-bold mb-3">Requirements</h5>
+                <div class="text-muted mb-4">{!! nl2br(e($job->requirements)) !!}</div>
+            @endif
 
-            <h6 class="fw-bold mt-3">Additional Requirements</h6>
-            <ul class="text-muted">
-                <li>Candidates residing in Banasree, Rampura, Aftabnagar, Meradia, Khilgaon, Basabo, Shahjahanpur, Malibagh, or nearby areas will be given preference.</li>
-                <li>Strong understanding of accounting principles and financial reporting.</li>
-                <li>Knowledge of VAT, Tax, and Bangladesh Financial Regulations.</li>
-                <li>Proficiency in Microsoft Excel, Word, and accounting software (Tally, ERP, or similar systems).</li>
-                <li>Ability to work under pressure and meet deadlines.</li>
-                <li>High level of integrity, professionalism, and confidentiality.</li>
-            </ul>
+            @if($job->responsibilities)
+                <h5 style="color: #a81c51;" class="fw-bold mb-3">Responsibilities</h5>
+                <div class="text-muted mb-4">{!! nl2br(e($job->responsibilities)) !!}</div>
+            @endif
 
-            {{-- Responsibilities Section --}}
-            <h5 style="color: #a81c51;" class="fw-bold mt-5 mb-3">Responsibilities & Context</h5>
-            <p class="text-muted mb-4">
-                Farazy Dental & Research Ltd. is one of Bangladesh's leading dental healthcare organizations, committed to delivering quality dental services through modern technology and professional excellence. We are currently seeking a motivated, detail-oriented, and dynamic Accounts & Finance Executive...
-            </p>
-
-            <h6 class="fw-bold">Job Responsibilities</h6>
-            <ul class="text-muted">
-                <li>Prepare monthly financial reports, including Income Statement, Profit & Loss Analysis, Trial Balance.</li>
-                <li>Assist in preparing financial statements, including Balance Sheet, Income Statement, and Cash Flow Statement.</li>
-                <li>Prepare monthly payroll and salary sheets.</li>
-                <li>Monitor bill and voucher preparation and ensure timely posting into the accounting system.</li>
-                <li>Reconcile bank statements and monitor daily financial transactions.</li>
-                <li>Support internal and external audit activities by providing necessary financial information and documentation.</li>
-            </ul>
-            <p class="fw-bold text-dark mt-3">Workplace: Farazy Dental & Research Ltd. (Head office), Banasree, Rampura, Dhaka</p>
-
-            {{-- Compensation Section --}}
-            <h5 style="color: #a81c51;" class="fw-bold mt-5 mb-3">Compensation & Other Benefits</h5>
-            <ul class="text-muted">
-                <li>Salary: Negotiable (Based on qualifications and experience)</li>
-                <li>Performance-based annual increment</li>
-                <li>Festival Bonus</li>
-                <li>Mobile Allowance (As per company policy)</li>
-            </ul>
+            @if($job->benefits)
+                <h5 style="color: #a81c51;" class="fw-bold mb-3">Compensation & Other Benefits</h5>
+                <div class="text-muted mb-4">{!! nl2br(e($job->benefits)) !!}</div>
+            @endif
             
+            @if ($job->image)
+                <div class="mt-4">
+                    <img src="{{ asset('storage/' . $job->image) }}" class="img-fluid rounded border" style="max-height:600px;">
+                </div>
+            @endif
+
+            @if ($job->attachment)
+                <div class="mt-4">
+                    <a href="{{ asset('storage/' . $job->attachment) }}" target="_blank" class="btn btn-outline-danger">
+                        <i class="bi bi-file-earmark-pdf-fill"></i> Download Official Circular PDF
+                    </a>
+                </div>
+            @endif
         </div>
 
-
+        {{-- Individual Filtered Tabs --}}
         <div class="tab-pane fade" id="req" role="tabpanel">
-            <p class="text-muted mt-3"><em>Clicking this tab will filter to show only Requirements...</em></p>
+            <div class="text-muted mt-3">
+                {!! $job->requirements ? nl2br(e($job->requirements)) : '<em>No specific requirements listed.</em>' !!}
+            </div>
         </div>
+        
         <div class="tab-pane fade" id="resp" role="tabpanel">
-            <p class="text-muted mt-3"><em>Clicking this tab will filter to show only Responsibilities...</em></p>
+            <div class="text-muted mt-3">
+                {!! $job->responsibilities ? nl2br(e($job->responsibilities)) : '<em>No specific responsibilities listed.</em>' !!}
+            </div>
         </div>
+        
         <div class="tab-pane fade" id="salary" role="tabpanel">
-            <p class="text-muted mt-3"><em>Clicking this tab will filter to show only Salary & Benefits...</em></p>
+            <div class="text-muted mt-3">
+                {!! $job->benefits ? nl2br(e($job->benefits)) : '<em>No specific compensation details listed.</em>' !!}
+            </div>
         </div>
 
     </div>

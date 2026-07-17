@@ -11,9 +11,16 @@
                 <input type="text" name="title" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Company / Organization</label>
+                <label class="form-label">Company / Organization Name</label>
                 <input type="text" name="company_name" class="form-control" required>
             </div>
+            
+            {{-- NEW: Company Logo --}}
+            <div class="mb-3">
+                <label class="form-label">Company Logo (optional)</label>
+                <input type="file" name="company_logo" class="form-control" accept="image/*">
+            </div>
+
             <div class="mb-3">
                 <label class="form-label">Category</label>
                 <select name="category" class="form-select" required>
@@ -24,10 +31,41 @@
                     <option value="NGO">NGO</option>
                 </select>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Description</label>
-                <textarea name="description" rows="5" class="form-control" required></textarea>
+
+            {{-- NEW: Quick Facts Row --}}
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Location</label>
+                    <input type="text" name="location" class="form-control" placeholder="e.g. Dhaka (Banasree)">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Experience</label>
+                    <input type="text" name="experience" class="form-control" placeholder="e.g. At most 2 years">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Salary</label>
+                    <input type="text" name="salary" class="form-control" placeholder="e.g. Negotiable">
+                </div>
             </div>
+
+            {{-- NEW: Tabbed Text Areas --}}
+            <div class="mb-3">
+                <label class="form-label">Context / General Description</label>
+                <textarea name="description" rows="4" class="form-control" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Requirements (Bulleted list recommended)</label>
+                <textarea name="requirements" rows="4" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Responsibilities (Bulleted list recommended)</label>
+                <textarea name="responsibilities" rows="4" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Compensation & Benefits (Bulleted list recommended)</label>
+                <textarea name="benefits" rows="4" class="form-control"></textarea>
+            </div>
+
             <div class="mb-3">
                 <label class="form-label">Application Deadline</label>
                 <input type="date" name="deadline" class="form-control" required>
@@ -40,6 +78,7 @@
                 <label class="form-label">PDF Attachment (optional)</label>
                 <input type="file" name="attachment" class="form-control" accept="application/pdf">
             </div>
+            
             <button class="btn btn-primary px-4">Publish</button>
         </form>
     </div>
