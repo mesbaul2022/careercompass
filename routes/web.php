@@ -22,5 +22,6 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/jobs', [\App\Http\Controllers\JobPublicController::class, 'index'])->name('jobs.public.index');
 Route::resource('materials', \App\Http\Controllers\Admin\StudyMaterialController::class);
+Route::get('/materials', [\App\Http\Controllers\MaterialPublicController::class, 'index'])->name('materials.public.index');
 
 require __DIR__.'/auth.php';
