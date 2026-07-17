@@ -1,7 +1,8 @@
-@extends('layouts.app')
-@section('content')
-<div class="container py-4">
-    <h2 class="mb-4">Edit Job Circular</h2>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="h4 mb-0">Edit Job Circular</h2>
+    </x-slot>
+
     <div class="card cc-card p-4">
         <form action="{{ route('admin.jobs.update', $job) }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -17,11 +18,11 @@
             <div class="mb-3">
                 <label class="form-label">Category</label>
                 <select name="category" class="form-select" required>
-                    <option value="BCS" @selected(old('category', $job->category) === 'BCS')>BCS</option>
-                    <option value="Govt Bank" @selected(old('category', $job->category) === 'Govt Bank')>Govt Bank</option>
-                    <option value="Non-Govt" @selected(old('category', $job->category) === 'Non-Govt')>Non-Govt Bank</option>
-                    <option value="Engineering" @selected(old('category', $job->category) === 'Engineering')>Engineering</option>
-                    <option value="NGO" @selected(old('category', $job->category) === 'NGO')>NGO</option>
+                    <option value="BCS" @selected($job->category === 'BCS')>BCS</option>
+                    <option value="Govt Bank" @selected($job->category === 'Govt Bank')>Govt Bank</option>
+                    <option value="Non-Govt" @selected($job->category === 'Non-Govt')>Non-Govt</option>
+                    <option value="Engineering" @selected($job->category === 'Engineering')>Engineering</option>
+                    <option value="NGO" @selected($job->category === 'NGO')>NGO</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -33,21 +34,20 @@
                 <input type="date" name="deadline" class="form-control" value="{{ old('deadline', $job->deadline->format('Y-m-d')) }}" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Circular Image (optional — leave blank to keep the current one)</label>
-                @if ($job->image)
-                    <div class="small text-muted mb-1">Current file: {{ basename($job->image) }}</div>
+                <label class="form-label">Circular Image (optional)</label>
+                <input type="file" name="image" class="form-control" accept="image/*">
+                @if($job->image)
+                    <small class="text-muted d-block mt-1">Current image exists. Uploading a new one will replace it.</small>
                 @endif
-                <input type="file" name="image" class="form-control">
             </div>
             <div class="mb-3">
-                <label class="form-label">PDF Attachment (optional — leave blank to keep the current one)</label>
-                @if ($job->attachment)
-                    <div class="small text-muted mb-1">Current file: {{ basename($job->attachment) }}</div>
+                <label class="form-label">PDF Attachment (optional)</label>
+                <input type="file" name="attachment" class="form-control" accept="application/pdf">
+                @if($job->attachment)
+                    <small class="text-muted d-block mt-1">Current attachment exists. Uploading a new one will replace it.</small>
                 @endif
-                <input type="file" name="attachment" class="form-control">
             </div>
             <button class="btn btn-primary px-4">Update</button>
         </form>
     </div>
-</div>
-@endsection
+</x-app-layout>
