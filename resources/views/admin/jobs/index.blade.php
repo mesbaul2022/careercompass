@@ -1,12 +1,12 @@
-@extends('layouts.app')
-@section('content')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Manage Job Circulars</h2>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="h4 mb-0">Manage Job Circulars</h2>
+    </x-slot>
+
+    <div class="d-flex justify-content-end mb-4">
         <a href="{{ route('admin.jobs.create') }}" class="btn btn-primary">+ New Circular</a>
     </div>
 
-    {{-- STATS SECTION ADDED HERE --}}
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="card cc-card p-3 text-center">
@@ -74,5 +74,4 @@
         </table>
     </div>
     <div class="mt-3">{{ $jobs->links() }}</div>
-</div>
-@endsection
+</x-app-layout>
