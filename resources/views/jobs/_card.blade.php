@@ -2,7 +2,10 @@
 <div class="card cc-card h-100 p-3">
     <div class="d-flex align-items-center mb-2">
         <div class="cc-avatar me-2">{{ strtoupper(substr($job->company_name, 0, 1)) }}</div>
-        <span class="cc-tag cat-{{ $job->categorySlug() }}">{{ $job->category }}</span>
+        <span class="cc-tag cat-{{ $job->categorySlug() }}">
+            <img src="{{ asset('images/categories/' . $job->categorySlug() . '.png') }}" alt="">
+            {{ $job->category }}
+        </span>
     </div>
     <h5 class="mb-1">{{ $job->title }}</h5>
     <p class="text-muted small mb-2">{{ $job->company_name }}</p>

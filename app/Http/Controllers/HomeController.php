@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
-    //
+    public function index()
+    {
+        $latestJobs = \App\Models\JobCircular::latest()->take(6)->get();
+        return view('home', compact('latestJobs'));
+    }
 }

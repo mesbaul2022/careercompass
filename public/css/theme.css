@@ -108,3 +108,16 @@
        border-radius: var(--cc-radius);
        padding: 20px;
    }
+
+   .cc-tag img {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    margin-right: 5px;
+    vertical-align: -2px;
+}
+.cc-category-icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
