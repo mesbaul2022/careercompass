@@ -21,5 +21,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/jobs', [\App\Http\Controllers\JobPublicController::class, 'index'])->name('jobs.public.index');
+Route::resource('materials', \App\Http\Controllers\Admin\StudyMaterialController::class);
 
 require __DIR__.'/auth.php';
