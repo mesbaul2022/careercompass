@@ -18,6 +18,7 @@ class JobPublicController extends Controller
             $query->where('category', $request->category);
             Cookie::queue('preferred_category', $request->category, 60 * 24 * 30);
         }
+        
         if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
@@ -25,5 +26,13 @@ class JobPublicController extends Controller
         $jobs = $query->paginate(9)->withQueryString();
 
         return view('jobs.index', compact('jobs', 'category'));
+    }
+
+    public function show(\App\Models\JobCircular $job)
+    {
+        // Fetch syllabus that matches job category
+        $syllabus = \App\Models\Syllabus::where('category', $job->category)->first();
+        
+        return view('jobs.show', compact('job', 'syllabus'));
     }
 }

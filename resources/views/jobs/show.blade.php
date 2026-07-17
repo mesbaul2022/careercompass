@@ -28,6 +28,13 @@
                 </a>
             @endif
         </div>
+
+        @if ($syllabus)
+            <div class="card cc-card p-4 mt-4">
+                <h5>Suggested Syllabus: {{ $syllabus->title }}</h5>
+                <div class="mt-2">{!! nl2br(e($syllabus->content)) !!}</div>
+            </div>
+        @endif
     </div>
 
     <div class="col-md-4">
