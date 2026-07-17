@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory; // 1. ADD THIS IMPORT
 use Illuminate\Support\Str;
 
 class JobCircular extends Model
 {
+    use HasFactory; 
     protected $fillable = [
         'title', 'slug', 'company_name', 'category',
         'description', 'image', 'attachment', 'deadline', 'user_id',
