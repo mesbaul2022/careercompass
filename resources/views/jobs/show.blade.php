@@ -62,4 +62,16 @@
         </div>
     </div>
 </div>
+
+    @if ($similarJobs->isNotEmpty())
+        <hr class="my-5">
+        <h4 class="mb-4">Similar Jobs You Might Like</h4>
+        <div class="row">
+            @foreach ($similarJobs as $related)
+                <div class="col-md-4 mb-4">
+                    @include('jobs._card', ['job' => $related])
+                </div>
+            @endforeach
+        </div>
+    @endif
 @endsection
