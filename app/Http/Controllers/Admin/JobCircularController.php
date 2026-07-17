@@ -11,8 +11,16 @@ class JobCircularController extends Controller
 {
     public function index()
     {
-        $jobs = JobCircular::latest()->paginate(10);
-        return view('admin.jobs.index', compact('jobs'));
+        $jobs = \App\Models\JobCircular::latest()->paginate(10);
+        
+        $stats = [
+            'total'   => \App\Models\JobCircular::count(),
+            'active'  => \App\Models\JobCircular::where('deadline', '>=', now())->count(),
+            'expired' => \App\Models\JobCircular::where('deadline', '<', now())->count(),
+            'users'   => \App\Models\User::where('role', 'user')->count(),
+        ];
+        
+        return view('admin.jobs.index', compact('jobs', 'stats'));
     }
 
     public function create()

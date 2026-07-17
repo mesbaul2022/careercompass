@@ -6,6 +6,34 @@
         <a href="{{ route('admin.jobs.create') }}" class="btn btn-primary">+ New Circular</a>
     </div>
 
+    {{-- STATS SECTION ADDED HERE --}}
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card cc-card p-3 text-center">
+                <h3 class="mb-1 text-primary">{{ $stats['total'] }}</h3>
+                <small class="text-muted fw-bold">Total Circulars</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card cc-card p-3 text-center">
+                <h3 class="mb-1 text-success">{{ $stats['active'] }}</h3>
+                <small class="text-muted fw-bold">Active</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card cc-card p-3 text-center">
+                <h3 class="mb-1 text-danger">{{ $stats['expired'] }}</h3>
+                <small class="text-muted fw-bold">Expired</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card cc-card p-3 text-center">
+                <h3 class="mb-1 text-info">{{ $stats['users'] }}</h3>
+                <small class="text-muted fw-bold">Registered Users</small>
+            </div>
+        </div>
+    </div>
+
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -13,7 +41,13 @@
     <div class="card cc-card p-3">
         <table class="table align-middle mb-0">
             <thead>
-                <tr><th>Title</th><th>Category</th><th>Deadline</th><th>Status</th><th></th></tr>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
                 @foreach ($jobs as $job)
