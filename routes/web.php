@@ -36,7 +36,11 @@ Route::middleware('auth')->group(function () {
 
 // 3. ADMIN ROUTES (log in as Admin)
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    
+    Route::resource('jobs', \App\Http\Controllers\Admin\JobCircularController::class);
+    // Approval Route
+    Route::patch('jobs/{job}/approve', [\App\Http\Controllers\Admin\JobCircularController::class, 'approve'])->name('jobs.approve'); 
+    // Applications Viewer Route
+    Route::get('jobs/{job}/applications', [\App\Http\Controllers\ApplicationController::class, 'index'])->name('jobs.applications');
     Route::resource('jobs', \App\Http\Controllers\Admin\JobCircularController::class);
     Route::resource('syllabi', \App\Http\Controllers\Admin\SyllabusController::class)->except(['show']);
     

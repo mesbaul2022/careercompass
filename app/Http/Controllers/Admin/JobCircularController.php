@@ -11,21 +11,34 @@ class JobCircularController extends Controller
 {
     public function index()
     {
-        $jobs = JobCircular::latest()->paginate(10);
-        $stats = [
-            'total'   => JobCircular::count(),
-            'active'  => JobCircular::where('deadline', '>=', now())->count(),
-            'expired' => JobCircular::where('deadline', '<', now())->count(),
-            'users'   => \App\Models\User::where('role', 'user')->count(),
-        ];
+        $user = auth()->user();
+
+        // If organization, only show THEIR jobs. If admin, show ALL jobs.
+        if ($user->role === 'organization') {
+            $jobs = JobCircular::where('user_id', $user->id)->latest()->paginate(10);
+            $stats = [
+                'total'   => JobCircular::where('user_id', $user->id)->count(),
+                'active'  => JobCircular::where('user_id', $user->id)->where('status', 'approved')->where('deadline', '>=', now())->count(),
+                'pending' => JobCircular::where('user_id', $user->id)->where('status', 'pending')->count(),
+                'users'   => 0, // Orgs don't need to see total system users
+            ];
+        } else {
+            $jobs = JobCircular::latest()->paginate(10);
+            $stats = [
+                'total'   => JobCircular::count(),
+                'active'  => JobCircular::where('status', 'approved')->where('deadline', '>=', now())->count(),
+                'pending' => JobCircular::where('status', 'pending')->count(),
+                'users'   => \App\Models\User::where('role', 'user')->count(),
+            ];
+        }
+
         return view('admin.jobs.index', compact('jobs', 'stats'));
     }
-
-    public function create() { return view('admin.jobs.create'); }
 
     public function store(Request $request)
     {
         $data = $request->validate([
+            // ... your existing validation array ...
             'title'            => 'required|string|max:255',
             'company_name'     => 'required|string|max:255',
             'company_logo'     => 'nullable|image|max:2048',
@@ -43,19 +56,28 @@ class JobCircularController extends Controller
         ]);
 
         $data['user_id'] = auth()->id();
+        
+        // Admins skip approval. Organizations go to pending.
+        $data['status'] = auth()->user()->role === 'admin' ? 'approved' : 'pending';
 
-        if ($request->hasFile('company_logo')) {
-            $data['company_logo'] = $request->file('company_logo')->store('company-logos', 'public');
-        }
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('job-images', 'public');
-        }
-        if ($request->hasFile('attachment')) {
-            $data['attachment'] = $request->file('attachment')->store('job-attachments', 'public');
-        }
+        // ... your existing file upload logic ...
+        if ($request->hasFile('company_logo')) $data['company_logo'] = $request->file('company_logo')->store('company-logos', 'public');
+        if ($request->hasFile('image')) $data['image'] = $request->file('image')->store('job-images', 'public');
+        if ($request->hasFile('attachment')) $data['attachment'] = $request->file('attachment')->store('job-attachments', 'public');
 
         JobCircular::create($data);
-        return redirect()->route('admin.jobs.index')->with('success', 'Job circular published!');
+        
+        $msg = auth()->user()->role === 'admin' ? 'Job published!' : 'Job submitted and is waiting for admin approval.';
+        return redirect()->route('admin.jobs.index')->with('success', $msg);
+    }
+
+    // NEW METHOD: Handle Approval
+    public function approve(JobCircular $job)
+    {
+        if (auth()->user()->role !== 'admin') abort(403);
+        
+        $job->update(['status' => 'approved']);
+        return back()->with('success', 'Job circular has been approved and is now public.');
     }
 
     public function edit(JobCircular $job) { return view('admin.jobs.edit', compact('job')); }

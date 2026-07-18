@@ -34,6 +34,11 @@ class JobCircular extends Model
         return $this->belongsToMany(User::class, 'saved_jobs', 'job_circular_id', 'user_id');
     }
 
+    public function applications()
+    {
+        return $this->hasMany(JobApplication::class);
+    }
+
     protected static function booted()
     {
         static::creating(function ($job) {

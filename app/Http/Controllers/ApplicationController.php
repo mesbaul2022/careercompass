@@ -8,6 +8,20 @@ use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
+    // ADMIN / ORGANIZATION VIEW: See who applied to a specific job
+    public function index(JobCircular $job)
+    {
+        // Security: Only Admins or the Organization that created the job can view the applicants
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $job->user_id) {
+            abort(403, 'You do not have permission to view these applications.');
+        }
+
+        $applications = $job->applications()->with('user')->latest()->get();
+
+        return view('admin.jobs.applications', compact('job', 'applications'));
+    }
+
+    // JOB SEEKER VIEW: Show the application form
     public function create(JobCircular $job)
     {
         // Check if user has already applied
@@ -23,6 +37,7 @@ class ApplicationController extends Controller
         return view('jobs.apply', compact('job'));
     }
 
+    // JOB SEEKER ACTION: Save the submitted application to the database
     public function store(Request $request, JobCircular $job)
     {
         // Prevent double submission

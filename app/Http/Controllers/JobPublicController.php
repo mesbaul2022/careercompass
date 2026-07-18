@@ -10,7 +10,7 @@ class JobPublicController extends Controller
 {
     public function index(Request $request)
     {
-        $query = JobCircular::latest();
+        $query = JobCircular::where('status', 'approved')->latest();
 
         $category = $request->category ?? $request->cookie('preferred_category');
 
@@ -30,6 +30,9 @@ class JobPublicController extends Controller
 
     public function show(\App\Models\JobCircular $job)
     {
+        if ($job->status !== 'approved' && auth()->id() !== $job->user_id && auth()->user()?->role !== 'admin') {
+            abort(404);
+        }
         $syllabus = \App\Models\Syllabus::where('category', $job->category)->first();
         
         $similarJobs = \App\Models\JobCircular::where('category', $job->category)

@@ -22,8 +22,9 @@
         </div>
         <div class="col-md-3">
             <div class="card cc-card p-3 text-center">
-                <h3 class="mb-1 text-danger">{{ $stats['expired'] }}</h3>
-                <small class="text-muted fw-bold">Expired</small>
+                {{-- Swapped "expired" for "pending" to match the new workflow --}}
+                <h3 class="mb-1 text-warning">{{ $stats['pending'] }}</h3>
+                <small class="text-muted fw-bold">Pending Approval</small>
             </div>
         </div>
         <div class="col-md-3">
@@ -52,16 +53,34 @@
             <tbody>
                 @foreach ($jobs as $job)
                     <tr>
-                        <td>{{ $job->title }}</td>
+                        <td>{{ $job->title }} <br> <small class="text-muted">{{ $job->company_name }}</small></td>
                         <td>{{ $job->category }}</td>
-                        <td>{{ $job->deadline->format('d M, Y') }}</td>
                         <td>
-                            <span class="badge {{ $job->isExpired() ? 'badge-expired' : 'badge-active' }}">
-                                {{ $job->isExpired() ? 'Expired' : 'Active' }}
-                            </span>
+                            @if($job->status === 'pending')
+                                <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split"></i> Pending</span>
+                            @elseif($job->isExpired())
+                                <span class="badge badge-expired">Expired</span>
+                            @else
+                                <span class="badge badge-active">Active</span>
+                            @endif
                         </td>
                         <td class="text-end">
+                            
+                            {{-- View Applications Button --}}
+                            <a href="{{ route('admin.jobs.applications', $job) }}" class="btn btn-sm btn-info text-white fw-bold me-1">
+                                <i class="bi bi-people-fill"></i> Apps ({{ $job->applications()->count() }})
+                            </a>
+
+                            {{-- Admin Approve Button --}}
+                            @if(auth()->user()->role === 'admin' && $job->status === 'pending')
+                                <form action="{{ route('admin.jobs.approve', $job) }}" method="POST" class="d-inline">
+                                    @csrf @method('PATCH')
+                                    <button class="btn btn-sm btn-success fw-bold me-1"><i class="bi bi-check-lg"></i> Approve</button>
+                                </form>
+                            @endif
+
                             <a href="{{ route('admin.jobs.edit', $job) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            
                             <form action="{{ route('admin.jobs.destroy', $job) }}" method="POST" class="d-inline"
                                   onsubmit="return confirm('Delete this circular?')">
                                 @csrf @method('DELETE')
