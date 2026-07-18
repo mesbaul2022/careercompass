@@ -25,7 +25,6 @@
                 <a href="{{ route('login') }}" class="btn btn-outline-secondary fw-bold"><i class="bi bi-star"></i> Save</a>
             @endauth
             <button class="btn btn-outline-secondary"><i class="bi bi-share"></i> Share</button>
-            <button class="btn btn-outline-secondary"><i class="bi bi-printer"></i></button>
         </div>
     </div>
 
@@ -60,10 +59,6 @@
                 <p class="mb-0">Salary: <strong>{{ $job->salary ?? 'Negotiable' }}</strong></p>
             </div>
         </div>
-    </div>
-
-    <div class="alert alert-info border-info py-2 mb-4">
-        Applicants are encouraged to submit <strong>Video CV</strong>.
     </div>
 
     {{-- Dynamic Tab Content --}}
