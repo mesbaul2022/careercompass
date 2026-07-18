@@ -10,11 +10,14 @@
             <div class="mb-3">
                 <label class="form-label">Category</label>
                 <select name="category" class="form-select" required>
-                    <option value="BCS" @selected($syllabus->category === 'BCS')>BCS</option>
-                    <option value="Govt Bank" @selected($syllabus->category === 'Govt Bank')>Govt Bank</option>
-                    <option value="Non-Govt" @selected($syllabus->category === 'Non-Govt')>Non-Govt Bank</option>
-                    <option value="Engineering" @selected($syllabus->category === 'Engineering')>Engineering</option>
-                    <option value="NGO" @selected($syllabus->category === 'NGO')>NGO</option>
+                    <option value="BCS" @selected($job->category === 'BCS')>BCS</option>
+                    <option value="Bank" @selected($job->category === 'Bank' || $job->category === 'Govt Bank')>Bank</option>
+                    <option value="Non-Govt" @selected($job->category === 'Non-Govt')>Non-Govt</option>
+                    <option value="Engineering" @selected($job->category === 'Engineering')>Engineering</option>
+                    <option value="NGO" @selected($job->category === 'NGO')>NGO</option>
+                    <option value="Government" @selected($job->category === 'Government')>Government</option>
+                    <option value="Healthcare" @selected($job->category === 'Healthcare')>Healthcare</option>
+                    <option value="Telecom" @selected($job->category === 'Telecom')>Telecom</option>
                 </select>
             </div>
             <div class="mb-3">

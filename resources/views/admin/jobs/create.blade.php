@@ -25,10 +25,13 @@
                 <label class="form-label">Category</label>
                 <select name="category" class="form-select" required>
                     <option value="BCS">BCS</option>
-                    <option value="Govt Bank">Govt Bank</option>
+                    <option value="Bank">Bank</option>
                     <option value="Non-Govt">Non-Govt</option>
                     <option value="Engineering">Engineering</option>
                     <option value="NGO">NGO</option>
+                    <option value="Government">Government</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Telecom">Telecom</option>
                 </select>
             </div>
 

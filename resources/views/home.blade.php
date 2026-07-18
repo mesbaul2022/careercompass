@@ -16,7 +16,7 @@
 </div>
 
 <div class="row text-center mb-5">
-    @foreach (['BCS', 'Govt Bank', 'Non-Govt', 'Engineering', 'NGO'] as $cat)
+    @foreach (['BCS', 'Bank', 'Non-Govt', 'Engineering', 'NGO', 'Government', 'Healthcare', 'Telecom'] as $cat)
         @php $slug = \Illuminate\Support\Str::slug($cat); @endphp
         <div class="col-6 col-md-2 mb-3">
             <a href="{{ route('jobs.public.index', ['category' => $cat]) }}" class="text-decoration-none">

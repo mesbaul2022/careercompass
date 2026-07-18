@@ -12,7 +12,7 @@
                         <input class="form-check-input" type="radio" name="category" value="" id="cat-all" @checked(!request('category'))>
                         <label class="form-check-label small" for="cat-all">All Categories</label>
                     </div>
-                    @foreach (['BCS', 'Govt Bank', 'Non-Govt', 'Engineering', 'NGO'] as $cat)
+                    @foreach (['BCS', 'Bank', 'Non-Govt', 'Engineering', 'NGO', 'Government', 'Healthcare', 'Telecom'] as $cat)
                         @php $slug = \Illuminate\Support\Str::slug($cat); @endphp
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="category" value="{{ $cat }}" id="cat-{{ $slug }}"

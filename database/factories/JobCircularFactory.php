@@ -11,7 +11,7 @@ class JobCircularFactory extends Factory
         return [
             'title' => fake()->jobTitle() . ' — ' . fake()->randomElement(['BCS', 'Bank', 'NGO']) . ' Circular',
             'company_name' => fake()->company(),
-            'category' => fake()->randomElement(['BCS', 'Govt Bank', 'Non-Govt', 'Engineering', 'NGO']),
+            'category' => fake()->randomElement(['BCS', 'Bank', 'Non-Govt', 'Engineering', 'NGO', 'Government', 'Healthcare', 'Telecom']),
             'description' => fake()->paragraphs(3, true),
             'deadline' => fake()->dateTimeBetween('-10 days', '+30 days'),
             'user_id' => 1, // Assumes the admin user we seeded in Step C5 has ID 1

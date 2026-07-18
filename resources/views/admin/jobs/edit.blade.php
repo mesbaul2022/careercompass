@@ -19,10 +19,13 @@
                 <label class="form-label">Category</label>
                 <select name="category" class="form-select" required>
                     <option value="BCS" @selected($job->category === 'BCS')>BCS</option>
-                    <option value="Govt Bank" @selected($job->category === 'Govt Bank')>Govt Bank</option>
+                    <option value="Bank" @selected($job->category === 'Bank' || $job->category === 'Govt Bank')>Bank</option>
                     <option value="Non-Govt" @selected($job->category === 'Non-Govt')>Non-Govt</option>
                     <option value="Engineering" @selected($job->category === 'Engineering')>Engineering</option>
                     <option value="NGO" @selected($job->category === 'NGO')>NGO</option>
+                    <option value="Government" @selected($job->category === 'Government')>Government</option>
+                    <option value="Healthcare" @selected($job->category === 'Healthcare')>Healthcare</option>
+                    <option value="Telecom" @selected($job->category === 'Telecom')>Telecom</option>
                 </select>
             </div>
             <div class="mb-3">
