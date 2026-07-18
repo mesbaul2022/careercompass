@@ -12,9 +12,14 @@ Route::get('/jobs/{job}', [\App\Http\Controllers\JobPublicController::class, 'sh
 Route::get('/materials', [\App\Http\Controllers\MaterialPublicController::class, 'index'])->name('materials.public.index');
 
 
-// 2. STANDARD USER ROUTES (Must be logged in)
+//STANDARD USER ROUTES (Must be logged in)
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    // If the user is an admin, send them to the Admin Dashboard (where + New Circular is)
+    if (auth()->user()->role === 'admin') {
+        return redirect()->route('admin.jobs.index');
+    }
+    // If it is a normal user, send them to the Job Listings (Screenshot 4)
+    return redirect()->route('jobs.public.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
