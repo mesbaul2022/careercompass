@@ -25,7 +25,23 @@
         </div>
         
         <div class="d-flex gap-2 mt-2">
-            <button class="btn btn-success px-4 fw-bold">Apply Now</button>
+            
+            {{-- Dynamic Apply Button --}}
+            @auth
+                @php 
+                    $hasApplied = \App\Models\JobApplication::where('user_id', auth()->id())->where('job_circular_id', $job->id)->exists(); 
+                @endphp
+                
+                @if($hasApplied)
+                    <button class="btn btn-secondary px-4 fw-bold" disabled><i class="bi bi-check-circle-fill"></i> Already Applied</button>
+                @else
+                    <a href="{{ route('jobs.apply', $job) }}" class="btn btn-success px-4 fw-bold">Apply Now</a>
+                @endif
+            @else
+                <a href="{{ route('login') }}" class="btn btn-success px-4 fw-bold">Login to Apply</a>
+            @endauth
+
+            {{-- Save Button --}}
             @auth
                 <form action="{{ route('saved.toggle', $job) }}" method="POST" class="d-inline">
                     @csrf
@@ -36,6 +52,7 @@
             @else
                 <a href="{{ route('login') }}" class="btn btn-outline-secondary fw-bold"><i class="bi bi-star"></i> Save</a>
             @endauth
+            
             <button class="btn btn-outline-secondary"><i class="bi bi-share"></i> Share</button>
         </div>
     </div>
