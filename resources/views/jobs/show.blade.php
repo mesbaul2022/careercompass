@@ -5,14 +5,26 @@
 <div class="container bg-white p-4 rounded shadow-sm border mb-5">
     
     {{-- Header Section --}}
-    <div class="d-flex justify-content-between align-items-start mb-3">
-        <div>
-            <h3 style="color: #1a7337; font-weight: 600;">{{ $job->title }}</h3>
-            <h5 class="text-dark">{{ $job->company_name }} <span class="badge bg-light text-danger border ms-2" style="font-size: 0.7rem;">Insight <i class="bi bi-box-arrow-up-right"></i></span></h5>
-            <p class="fw-bold mt-2" style="color: #b3261e;">Application Deadline : {{ $job->deadline->format('d M Y') }}</p>
+    <div class="d-flex justify-content-between align-items-start mb-4 pb-3 border-bottom">
+        <div class="d-flex align-items-center">
+            
+            {{-- Dynamic Company Logo --}}
+            @if($job->company_logo)
+                <img src="{{ asset('storage/' . $job->company_logo) }}" alt="Logo" class="shadow-sm me-4" style="width: 80px; height: 80px; object-fit: contain; border-radius: 8px; border: 1px solid #e4e8ef; background-color: #fff; padding: 5px;">
+            @else
+                <div class="shadow-sm me-4 d-flex justify-content-center align-items-center fw-bold" style="width: 80px; height: 80px; font-size: 2rem; background-color: #f4f6f9; color: #14539a; border: 1px solid #e4e8ef; border-radius: 8px;">
+                    {{ strtoupper(substr($job->company_name, 0, 1)) }}
+                </div>
+            @endif
+            
+            <div>
+                <h3 style="color: #1a7337; font-weight: 700;" class="mb-1">{{ $job->title }}</h3>
+                <h5 class="text-dark fw-semibold mb-1">{{ $job->company_name }} <span class="badge bg-light text-danger border ms-2" style="font-size: 0.75rem;">Insight <i class="bi bi-box-arrow-up-right"></i></span></h5>
+                <p class="fw-bold mt-1 mb-0" style="color: #b3261e;"><i class="bi bi-calendar-event me-1"></i> Application Deadline : {{ $job->deadline->format('d M Y') }}</p>
+            </div>
         </div>
         
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 mt-2">
             <button class="btn btn-success px-4 fw-bold">Apply Now</button>
             @auth
                 <form action="{{ route('saved.toggle', $job) }}" method="POST" class="d-inline">

@@ -61,7 +61,10 @@
                                         <input class="form-check-input" type="radio" name="category" value="{{ $cat }}" id="cat-{{ $slug }}"
                                                @checked((isset($category) ? $category : request('category')) === $cat)>
                                         <label class="form-check-label ms-2 d-flex align-items-center w-100" for="cat-{{ $slug }}" style="cursor: pointer;">
-                                            <span class="cc-tag cat-{{ $slug }} px-3 py-1 shadow-sm w-100 text-center" style="font-size: 0.8rem;">{{ $cat }}</span>
+                                            <span class="cc-tag cat-{{ $slug }} px-3 py-2 shadow-sm w-100 d-flex align-items-center justify-content-center gap-2" style="font-size: 0.9rem; border-radius: 8px;">
+                                                <img src="{{ asset('images/categories/' . $slug . '.png') }}" alt="{{ $cat }}" style="width: 20px; height: 20px; object-fit: contain;">
+                                                {{ $cat }}
+                                            </span>
                                         </label>
                                     </div>
                                 @endforeach
